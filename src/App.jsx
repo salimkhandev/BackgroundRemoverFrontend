@@ -20,7 +20,7 @@ function App() {
     formData.append('image_file', file);
 
     try {
-      const response = await axios.post('http://localhost:5000/remove-bg', formData, {
+      const response = await axios.post('https://background-removerbackend-git-main-salimkhandevs-projects.vercel.app//remove-bg', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
