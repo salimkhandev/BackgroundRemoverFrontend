@@ -1,28 +1,16 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 
 function App() {
   const [file, setFile] = useState(null);
   const [imageSrc, setImageSrc] = useState('');
-  const [originalImageSrc, setOriginalImageSrc] = useState('');
   const [loading, setLoading] = useState(false);
   const [fileName, setFileName] = useState('No file chosen');
-  const [showComparison, setShowComparison] = useState(false);
-  const containerRef = useRef(null);
 
   const handleFileChange = (event) => {
     if (event.target.files[0]) {
-      const selectedFile = event.target.files[0];
-      setFile(selectedFile);
-      setFileName(selectedFile.name);
-      
-      // Create preview of original image
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        setOriginalImageSrc(e.target.result);
-        setShowComparison(false);
-      };
-      reader.readAsDataURL(selectedFile);
+      setFile(event.target.files[0]);
+      setFileName(event.target.files[0].name);
     }
   };
 
@@ -45,7 +33,6 @@ function App() {
 
       const url = URL.createObjectURL(response.data);
       setImageSrc(url);
-      setShowComparison(true);
     } catch (error) {
       console.error('Error:', error);
     } finally {
@@ -55,13 +42,13 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 p-4 md:p-8 flex flex-col">
-      <div className="flex-1 flex flex-col max-w-4xl mx-auto w-full">
+      <div className="flex-1 flex flex-col max-w-md mx-auto w-full">
         <div className="text-center mb-6 animate-fade-in">
           <h1 className="text-3xl md:text-4xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-blue-500 mb-2">
             Magic Background Remover
           </h1>
           <p className="text-sm md:text-base text-gray-600">
-            Upload your image and see the magic happen!
+            Upload your image and watch the background disappear!
           </p>
         </div>
 
@@ -140,71 +127,41 @@ function App() {
               )}
             </button>
 
-            {(originalImageSrc || imageSrc) && (
+            {imageSrc && (
               <div className="mt-6 flex-1 flex flex-col animate-fade-in-up">
                 <div className="flex justify-between items-center mb-3">
-                  <h2 className="text-lg font-bold text-gray-800">
-                    {showComparison ? 'Before & After' : 'Original Image'}
-                  </h2>
-                  {imageSrc && (
-                    <a
-                      href={imageSrc}
-                      download="no-bg.png"
-                      className="flex items-center space-x-1 bg-green-500 hover:bg-green-600 text-white py-1.5 px-3 rounded-lg transition-all duration-300 text-sm"
+                  <h2 className="text-lg font-bold text-gray-800">Result</h2>
+                  <a
+                    href={imageSrc}
+                    download="no-bg.png"
+                    className="flex items-center space-x-1 bg-green-500 hover:bg-green-600 text-white py-1.5 px-3 rounded-lg transition-all duration-300 text-sm"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-4 w-4"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
                     >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="h-4 w-4"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
-                      <span>Download</span>
-                    </a>
-                  )}
+                      <path
+                        fillRule="evenodd"
+                        d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                    <span>Download</span>
+                  </a>
                 </div>
-
-                <div 
-                  ref={containerRef}
-                  className="bg-white p-2 rounded-xl shadow-inner border border-gray-200 flex-1 flex items-center justify-center max-h-96 overflow-auto"
-                >
-                  {showComparison ? (
-                    <div className="grid grid-cols-2 gap-4 w-full h-full">
-                      <div className="flex flex-col items-center">
-                        <div className="text-sm font-medium text-gray-500 mb-1">Original</div>
-                        <img
-                          src={originalImageSrc}
-                          alt="Original"
-                          className="max-w-full max-h-full object-contain border border-gray-200"
-                        />
-                      </div>
-                      <div className="flex flex-col items-center">
-                        <div className="text-sm font-medium text-gray-500 mb-1">Result</div>
-                        <img
-                          src={imageSrc}
-                          alt="No background"
-                          className="max-w-full max-h-full object-contain border border-gray-200"
-                        />
-                      </div>
-                    </div>
-                  ) : (
-                    <img
-                      src={originalImageSrc}
-                      alt="Original"
-                      className="max-w-full max-h-full object-contain"
-                    />
-                  )}
+                <div className="bg-white p-2 rounded-xl shadow-inner border border-gray-200 flex-1 flex items-center justify-center max-h-96 overflow-auto">
+                  <img
+                    src={imageSrc}
+                    alt="No background"
+                    className="max-w-full max-h-full object-contain"
+                  />
                 </div>
               </div>
             )}
           </div>
         </div>
-
       </div>
     </div>
   );
