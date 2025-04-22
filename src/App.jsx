@@ -41,19 +41,19 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 p-4 md:p-8">
-      <div className="max-w-4xl mx-auto">
-        <div className="text-center mb-8 animate-fade-in">
-          <h1 className="text-4xl md:text-5xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-blue-500 mb-2">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 p-4 md:p-8 flex flex-col">
+      <div className="flex-1 flex flex-col max-w-md mx-auto w-full">
+        <div className="text-center mb-6 animate-fade-in">
+          <h1 className="text-3xl md:text-4xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-blue-500 mb-2">
             Magic Background Remover
           </h1>
-          <p className="text-lg text-gray-600">
-            Upload your image and watch the background disappear like magic!
+          <p className="text-sm md:text-base text-gray-600">
+            Upload your image and watch the background disappear!
           </p>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-xl overflow-hidden transition-all duration-300 hover:shadow-2xl">
-          <div className="p-6 md:p-8">
+        <div className="bg-white rounded-2xl shadow-xl overflow-hidden transition-all duration-300 hover:shadow-2xl flex-1 flex flex-col">
+          <div className="p-6 flex-1 flex flex-col">
             <div className="mb-6">
               <label className="block text-gray-700 text-sm font-medium mb-2">
                 Upload Image
@@ -75,7 +75,7 @@ function App() {
                         d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
                       />
                     </svg>
-                    <p className="pt-1 text-sm tracking-wider text-gray-500">
+                    <p className="pt-1 text-sm tracking-wider text-gray-500 truncate max-w-xs">
                       {fileName}
                     </p>
                   </div>
@@ -126,42 +126,44 @@ function App() {
                 'Remove Background'
               )}
             </button>
-          </div>
 
-          {imageSrc && (
-            <div className="border-t border-gray-200 p-6 md:p-8 bg-gray-50 rounded-b-2xl animate-fade-in-up">
-              <div className="flex justify-between items-center mb-4">
-                <h2 className="text-2xl font-bold text-gray-800">Result</h2>
-                <a
-                  href={imageSrc}
-                  download="no-bg.png"
-                  className="flex items-center space-x-2 bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-lg transition-all duration-300 transform hover:scale-105"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
+            {imageSrc && (
+              <div className="mt-6 flex-1 flex flex-col animate-fade-in-up">
+                <div className="flex justify-between items-center mb-3">
+                  <h2 className="text-lg font-bold text-gray-800">Result</h2>
+                  <a
+                    href={imageSrc}
+                    download="no-bg.png"
+                    className="flex items-center space-x-1 bg-green-500 hover:bg-green-600 text-white py-1.5 px-3 rounded-lg transition-all duration-300 text-sm"
                   >
-                    <path
-                      fillRule="evenodd"
-                      d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                  <span>Download</span>
-                </a>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-4 w-4"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                    <span>Download</span>
+                  </a>
+                </div>
+                <div className="bg-white p-2 rounded-xl shadow-inner border border-gray-200 flex-1 flex items-center justify-center max-h-96 overflow-auto">
+                  <img
+                    src={imageSrc}
+                    alt="No background"
+                    className="max-w-full max-h-full object-contain"
+                  />
+                </div>
               </div>
-              <div className="bg-white p-4 rounded-xl shadow-inner border border-gray-200">
-                <img
-                  src={imageSrc}
-                  alt="No background"
-                  className="w-full h-auto rounded-lg"
-                />
-              </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
+
+  
       </div>
     </div>
   );
